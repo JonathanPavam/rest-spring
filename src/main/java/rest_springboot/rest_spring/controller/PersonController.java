@@ -20,7 +20,7 @@ public class PersonController {
     @Autowired
     private PersonService service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Person findById(@PathVariable("id") Long id){
         return service.findById(id);
     }

@@ -23,6 +23,7 @@ public class PersonService {
     }
 
     public Person findById(Long id){
+        logger.info("Finding person");
         return repository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("No records found for this id"));
     }
