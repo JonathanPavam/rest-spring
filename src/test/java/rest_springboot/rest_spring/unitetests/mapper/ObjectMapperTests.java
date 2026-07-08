@@ -3,7 +3,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static rest_springboot.rest_spring.mapper.ObjectMapper.parseListObjects;
 import static rest_springboot.rest_spring.mapper.ObjectMapper.parseObject;
 import java.util.List;
-import rest_springboot.rest_spring.data.dto.PersonDTO;
+import rest_springboot.rest_spring.data.dto.v1.PersonDTO;
 import rest_springboot.rest_spring.unitetests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

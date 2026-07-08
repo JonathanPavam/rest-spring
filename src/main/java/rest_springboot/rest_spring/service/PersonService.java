@@ -2,10 +2,13 @@ package rest_springboot.rest_spring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import rest_springboot.rest_spring.data.dto.PersonDTO;
+import rest_springboot.rest_spring.data.dto.v1.PersonDTO;
+import rest_springboot.rest_spring.data.dto.v2.PersonDTOV2;
 import rest_springboot.rest_spring.exception.ResourceNotFoundException;
 import static rest_springboot.rest_spring.mapper.ObjectMapper.parseListObjects;
 import static rest_springboot.rest_spring.mapper.ObjectMapper.parseObject;
+
+import rest_springboot.rest_spring.mapper.custom.PersonMapper;
 import rest_springboot.rest_spring.model.Person;
 import rest_springboot.rest_spring.repository.PersonRepository;
 import java.util.List;
@@ -19,6 +22,10 @@ public class PersonService {
 
     @Autowired
     PersonRepository repository;
+
+    @Autowired
+    PersonMapper converter;
+
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
     public List<PersonDTO> findAll(){
@@ -36,6 +43,13 @@ public class PersonService {
     {
         var entity = parseObject(person, Person.class);
         return parseObject(repository.save(entity), PersonDTO.class);
+    }
+
+    public PersonDTOV2 createv2(PersonDTOV2 person)
+    {
+        logger.info("Creating one Person v2");
+        var entity = converter.convertDtoToEntity(person);
+        return converter.convertEntityToDTO(repository.save(entity));
     }
 
     public PersonDTO update (PersonDTO person){

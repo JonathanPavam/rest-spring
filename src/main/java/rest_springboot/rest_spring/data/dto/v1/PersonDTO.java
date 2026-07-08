@@ -1,4 +1,4 @@
-package rest_springboot.rest_spring.data.dto;
+package rest_springboot.rest_spring.data.dto.v1;
 
 import java.io.Serializable;
 import java.util.Objects;
