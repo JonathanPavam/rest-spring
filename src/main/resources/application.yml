@@ -14,11 +14,13 @@ spring:
         dialect:
       show-sql: false
 
+      flyway:
+        enabled: true
+        locations: classpath:db/migration
+
 logging:
   level:
     #root: WARN
     rest_springboot.rest_spring: DEBUG
 
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
+
