@@ -2,9 +2,13 @@ package rest_springboot.rest_spring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rest_springboot.rest_spring.controller.PersonController;
 import rest_springboot.rest_spring.data.dto.v1.PersonDTO;
 import rest_springboot.rest_spring.data.dto.v2.PersonDTOV2;
 import rest_springboot.rest_spring.exception.ResourceNotFoundException;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static rest_springboot.rest_spring.mapper.ObjectMapper.parseListObjects;
 import static rest_springboot.rest_spring.mapper.ObjectMapper.parseObject;
 
@@ -36,7 +40,9 @@ public class PersonService {
         logger.info("Finding person");
         var entity = repository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("No records found for this id"));
-    return parseObject(entity, PersonDTO.class);
+        var dto = parseObject(entity, PersonDTO.class);
+        dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel().withType("GET"));
+        return dto;
     }
 
     public PersonDTO create(PersonDTO person)
@@ -66,6 +72,10 @@ public class PersonService {
          Person entity = repository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("No records found for this id"));
          repository.delete(entity);
+    }
+
+    private static void extracted(Long id, PersonDTO dto) {
+        dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel().withType("GET"));
     }
 }
 
